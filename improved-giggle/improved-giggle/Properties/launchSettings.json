@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "improved-giggle (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "improved-giggle (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

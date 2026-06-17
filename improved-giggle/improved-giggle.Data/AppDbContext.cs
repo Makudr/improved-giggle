@@ -3,14 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace improved_giggle.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<CampaignEntity> Campaigns => Set<CampaignEntity>();
-
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options)
-    {
-    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -35,7 +30,6 @@ public class AppDbContext : DbContext
             entity.Property(e => e.CreatedAt).IsRequired();
             entity.Property(e => e.LastModifiedAt).IsRequired();
             entity.Property(e => e.IsDefault).IsRequired();
-            entity.Property(e => e.IsActive).IsRequired();
         });
     }
 }

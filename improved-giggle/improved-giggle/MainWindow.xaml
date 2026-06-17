@@ -1,19 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Window
     x:Class="improved_giggle.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:improved_giggle"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Title="improved-giggle">
+    mc:Ignorable="d">
 
-    <Window.SystemBackdrop>
-        <MicaBackdrop />
-    </Window.SystemBackdrop>
+    <Grid Background="#121212">
 
-    <Grid>
+        <NavigationView x:Name="NavView"
+                PaneDisplayMode="Top"
+                IsBackButtonVisible="Collapsed"
+                IsSettingsVisible="True"
+                Background="#1F1F1F"
+                SelectionChanged="NavView_SelectionChanged"
+                Header="Kampania: brak">
+
+
+            <!-- 🔵 Elementy nawigacji -->
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Kampanie" Tag="campaigns" Icon="Library">
+                    <NavigationViewItem.MenuItems>
+                        <!-- 🔵 Tu dynamicznie wstawimy listę kampanii -->
+                        <NavigationViewItem x:Name="CampaignsPlaceholder"
+                                            IsEnabled="False"
+                                            Visibility="Collapsed"/>
+
+                        <NavigationViewItemSeparator/>
+
+                        <!-- 🔧 Zarządzaj kampaniami -->
+                        <NavigationViewItem Content="Zarządzaj kampaniami"
+                                            Tag="manage_campaigns"
+                                            Icon="Edit"/>
+
+                        <!-- ➕ Nowa kampania -->
+                        <NavigationViewItem Content="Nowa kampania"
+                                            Tag="new_campaign"
+                                            Icon="Add"/>
+                    </NavigationViewItem.MenuItems>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="Dashboard" Tag="dashboard" Icon="Home"/>
+            </NavigationView.MenuItems>
+
+            <!-- 🔵 Kontener na strony -->
+            <Frame x:Name="RootFrame"/>
+        </NavigationView>
 
     </Grid>
 </Window>

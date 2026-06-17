@@ -3,14 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace improved_giggle.Data.Services;
 
-public class CampaignService
+public class CampaignService(AppDbContext db)
 {
-    private readonly AppDbContext _db;
-
-    public CampaignService(AppDbContext db)
-    {
-        _db = db;
-    }
+    private readonly AppDbContext _db = db;
 
     public Task<List<CampaignEntity>> GetAllAsync()
         => _db.Campaigns.OrderBy(c => c.Name).ToListAsync();
@@ -24,7 +19,6 @@ public class CampaignService
             CreatedAt = DateTime.UtcNow,
             LastModifiedAt = DateTime.UtcNow,
             IsDefault = isDefault,
-            IsActive = false
         };
 
         _db.Campaigns.Add(entity);
@@ -44,4 +38,18 @@ public class CampaignService
         _db.Campaigns.Remove(entity);
         await _db.SaveChangesAsync();
     }
+
+    public async Task<CampaignEntity?> GetByIdAsync(int id)
+    {
+        return await _db.Campaigns
+            .FirstOrDefaultAsync(c => c.Id == id);
+    }
+
+    public async Task<CampaignEntity?> GetDefaultAsync()
+    {
+        return await _db.Campaigns
+            .FirstOrDefaultAsync(c => c.IsDefault);
+    }
+
+
 }

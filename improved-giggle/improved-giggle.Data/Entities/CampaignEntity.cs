@@ -14,6 +14,5 @@ namespace improved_giggle.Data.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime LastModifiedAt { get; set; }
         public bool IsDefault { get; set; }
-        public bool IsActive { get; set; }
     }
 }

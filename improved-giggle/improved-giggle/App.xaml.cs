@@ -1,5 +1,7 @@
 ﻿using improved_giggle.Data;
+using improved_giggle.Data.Entities;
 using improved_giggle.Data.Services;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -17,8 +19,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using improved_giggle.Data;
-using improved_giggle.Data.Services;
+using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -32,7 +33,8 @@ namespace improved_giggle
     {
         private Window? _window;
 
-        public static CampaignService Campaigns { get; private set; }
+        public static CampaignService? Campaigns { get; private set; }
+        public static CampaignEntity? ActiveCampaign { get; set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -49,11 +51,12 @@ namespace improved_giggle
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            var db = new AppDbContextFactory().CreateDbContext(null);
+            var db = new AppDbContextFactory().CreateDbContext([]);
             Campaigns = new CampaignService(db);
 
-            // Testowy wpis
-            await Campaigns.CreateAsync("Testowa kampania", "D&D 5e", true);
+#if DEBUG
+            await DataSeeder.SeedAsync(db);
+#endif
 
             _window = new MainWindow();
             _window.Activate();

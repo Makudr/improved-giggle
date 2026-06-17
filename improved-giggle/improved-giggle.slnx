@@ -4,6 +4,7 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Project Path="improved-giggle.Data/improved-giggle.Data.csproj" Id="be47e560-bb8a-4eb9-947e-6d95cad3df47" />
   <Project Path="improved-giggle/improved-giggle.csproj">
     <Platform Solution="*|ARM64" Project="ARM64" />
     <Platform Solution="*|x64" Project="x64" />

@@ -20,13 +20,15 @@ namespace improved_giggle.Data
             db.Campaigns.Add(new CampaignEntity
             {
                 Name = "Kampania testowa A",
-                IsDefault = true
+                IsDefault = true,
+                Order = 0
             });
 
             db.Campaigns.Add(new CampaignEntity
             {
                 Name = "Kampania testowa B",
-                IsDefault = false
+                IsDefault = false,
+                Order = 1
             });
 
             await db.SaveChangesAsync();

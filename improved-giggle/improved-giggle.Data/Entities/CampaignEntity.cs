@@ -14,5 +14,10 @@ namespace improved_giggle.Data.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime LastModifiedAt { get; set; }
         public bool IsDefault { get; set; }
+        public int Order { get; set; }
+
+        public string CreatedAtFormatted => CreatedAt.ToString("yyyy-MM-dd HH:mm");
+        public string LastModifiedAtFormatted => LastModifiedAt.ToString("yyyy-MM-dd HH:mm");
+
     }
 }

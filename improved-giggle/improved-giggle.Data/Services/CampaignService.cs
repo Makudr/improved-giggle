@@ -33,10 +33,14 @@ public class CampaignService(AppDbContext db)
         await _db.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(CampaignEntity entity)
+    public async Task DeleteAsync(int id)
     {
-        _db.Campaigns.Remove(entity);
-        await _db.SaveChangesAsync();
+        var entity = await _db.Campaigns.FindAsync(id);
+        if (entity != null)
+        {
+            _db.Campaigns.Remove(entity);
+            await _db.SaveChangesAsync();
+        }
     }
 
     public async Task<CampaignEntity?> GetByIdAsync(int id)
@@ -49,6 +53,44 @@ public class CampaignService(AppDbContext db)
     {
         return await _db.Campaigns
             .FirstOrDefaultAsync(c => c.IsDefault);
+    }
+
+    public async Task SetDefaultAsync(int id)
+    {
+        var all = await _db.Campaigns.ToListAsync();
+
+        foreach (var c in all)
+            c.IsDefault = c.Id == id;
+
+        await _db.SaveChangesAsync();
+    }
+
+    public async Task MoveUpAsync(int id)
+    {
+        var list = await _db.Campaigns.OrderBy(c => c.Order).ToListAsync();
+        var index = list.FindIndex(c => c.Id == id);
+
+        if (index > 0)
+        {
+            (list[index].Order, list[index - 1].Order) =
+                (list[index - 1].Order, list[index].Order);
+
+            await _db.SaveChangesAsync();
+        }
+    }
+
+    public async Task MoveDownAsync(int id)
+    {
+        var list = await _db.Campaigns.OrderBy(c => c.Order).ToListAsync();
+        var index = list.FindIndex(c => c.Id == id);
+
+        if (index < list.Count - 1)
+        {
+            (list[index].Order, list[index + 1].Order) =
+                (list[index + 1].Order, list[index].Order);
+
+            await _db.SaveChangesAsync();
+        }
     }
 
 

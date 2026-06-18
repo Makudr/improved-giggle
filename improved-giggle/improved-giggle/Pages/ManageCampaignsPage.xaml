@@ -1,14 +1,115 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="improved_giggle.Pages.ManageCampaignsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:improved_giggle.Pages"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:data="using:improved_giggle.Data.Entities">
 
-    <Grid>
+    <StackPanel Padding="20" Spacing="20">
 
-    </Grid>
+        <!-- 🔵 Przycisk tworzenia nowej kampanii -->
+        <Button Content="➕ Utwórz nową kampanię"
+                HorizontalAlignment="Left"
+                Click="CreateCampaign_Click"/>
+
+        <!-- 🔵 Lista kampanii -->
+        <ListView x:Name="CampaignList"
+                  SelectionMode="None"
+                  IsItemClickEnabled="False">
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="data:CampaignEntity">
+
+                    <Grid Padding="10" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <!-- Wszystkie kolumny równej szerokości -->
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+
+                        <!-- Nazwa -->
+                        <TextBlock Text="{x:Bind Name}" Grid.Column="0"/>
+
+                        <!-- System -->
+                        <TextBlock Text="{x:Bind System}" Grid.Column="1"/>
+
+                        <!-- IsDefault -->
+                        <TextBlock Text="★"
+                                   Foreground="Gold"
+                                   FontSize="18"
+                                   TextAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="{x:Bind IsDefault, Converter={StaticResource BoolToVisibilityConverter}}"
+                                   Grid.Column="2"/>
+
+                        <!-- Data utworzenia -->
+                        <TextBlock Text="{x:Bind CreatedAtFormatted}" Grid.Column="3"/>
+
+                        <!-- Data modyfikacji -->
+                        <TextBlock Text="{x:Bind LastModifiedAtFormatted}" Grid.Column="4"/>
+
+                        <!-- Przyciski: użycie Grid z kolumnami o stałej szerokości zapewnia stałe rozmieszczenie nawet gdy niektóre przyciski są Collapsed -->
+                        <Grid Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <!-- Wszystkie kolumny wyrównane do rozmiaru strzałek -->
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Ustaw jako domyślną -->
+                            <Button Grid.Column="0" Click="SetDefault_Click"
+                                    Visibility="{x:Bind IsDefault, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                                    Width="40" Height="40" Padding="4">
+                                <Viewbox Stretch="Uniform">
+                                    <SymbolIcon Symbol="Favorite"/>
+                                </Viewbox>
+                            </Button>
+
+                            <!-- Edytuj -->
+                            <Button Grid.Column="1" Click="Edit_Click" Width="40" Height="40" Padding="4">
+                                <Viewbox Stretch="Uniform">
+                                    <SymbolIcon Symbol="Edit"/>
+                                </Viewbox>
+                            </Button>
+
+                            <!-- Usuń -->
+                            <Button Grid.Column="2" Click="Delete_Click" Width="40" Height="40" Padding="4">
+                                <Viewbox Stretch="Uniform">
+                                    <SymbolIcon Symbol="Delete"/>
+                                </Viewbox>
+                            </Button>
+
+                            <!-- Góra -->
+                            <Button Grid.Column="3" Click="MoveUp_Click" Width="40" Height="40" Padding="4">
+                                <Viewbox Stretch="Uniform">
+                                    <FontIcon Glyph="▲" FontFamily="Segoe UI Symbol"/>
+                                </Viewbox>
+                            </Button>
+
+                            <!-- Dół -->
+                            <Button Grid.Column="4" Click="MoveDown_Click" Width="40" Height="40" Padding="4">
+                                <Viewbox Stretch="Uniform">
+                                    <FontIcon Glyph="▼" FontFamily="Segoe UI Symbol"/>
+                                </Viewbox>
+                            </Button>
+
+                        </Grid>
+
+
+                    </Grid>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+    </StackPanel>
 </Page>

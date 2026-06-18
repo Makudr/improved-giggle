@@ -16,6 +16,7 @@
   <ItemGroup>
     <None Remove="Pages\DashboardPage.xaml" />
     <None Remove="Pages\ManageCampaignsPage.xaml" />
+    <None Remove="Windows\EditCampaignDialog.xaml" />
     <None Remove="Windows\NewCampaignWindow.xaml" />
   </ItemGroup>
 
@@ -47,6 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\improved-giggle.Data\improved-giggle.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Windows\EditCampaignDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\ManageCampaignsPage.xaml">
